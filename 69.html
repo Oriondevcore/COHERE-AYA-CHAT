@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORION DEV CORE | African Particle Canvas</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      overflow: hidden;
+      background: url('https://images.unsplash.com/photo-1572797335638-9c2a8b4e4573?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .particle {
+      position: absolute;
+      background: #4a6fa5;
+      border-radius: 50%;
+      opacity: 0.4;
+      transform: translateZ(0);
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateZ(0) scale(0.8); }
+      100% { transform: translateZ(0) scale(1); }
+    }
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0,0,0,0.5);
+      padding: 15px;
+      border-radius: 10px;
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <h2>ORION DEV CORE</h2>
+    <p>African Hospitality, Real Tech</p>
+    <div id="stats">Particles: 10 | FPS: 60</div>
+  </div>
+
+  <script>
+    // Initialize 10 CSS particles
+    function createParticles() {
+      const container = document.body;
+      const count = 10;
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.width = `${Math.random() * 10 + 5}px`;
+        particle.style.height = particle.style.width;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.transformOrigin = 'center';
+        container.appendChild(particle);
+      }
+      return container.children;
+    }
+
+    // Mouse follow logic (CSS-only illusion)
+    function followMouse(particles) {
+      const container = document.body;
+      let mouseX = 0, mouseY = 0;
+      
+      const update = (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        // Apply mouse position (CSS)
+        particles.forEach(p => {
+          const rect = p.getBoundingClientRect();
+          const dx = mouseX - rect.left - rect.width/2;
+          const dy = mouseY - rect.top - rect.height/2;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          
+          // Scale effect: closer = bigger
+          const scale = Math.min(1, 0.8 / dist);
+          p.style.transform = `translate3d(${dx}px, ${dy}px, 0) scale(${scale})`;
+        });
+        
+        // Update stats
+        document.getElementById('stats').innerText = `Particles: ${particles.length} | FPS: ${Math.round(1000 / (performance.now() - lastTime))}`;
+        lastTime = performance.now();
+      };
+
+      // Performance: cap at 60 FPS
+      let lastTime = performance.now();
+      const loop = () => {
+        requestAnimationFrame(loop);
+        update();
+      };
+      window.addEventListener('mousemove', update);
+      loop();
+    }
+
+    // Main execution
+    document.addEventListener('DOMContentLoaded', () => {
+      const particles = createParticles();
+      followMouse(particles);
+    });
+  </script>
+</body>
+</html>

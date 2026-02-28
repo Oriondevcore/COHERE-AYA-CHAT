@@ -1,0 +1,22 @@
+{
+  "name": "steel-chat",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cohere-ai": "^2.0.0",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "react": "^19.2.4"
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
