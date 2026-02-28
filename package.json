@@ -4,8 +4,10 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "dev": "node server.js"
+     "dev": "bun run --bun next dev",
+    "build": "bun run --bun next build"
   },
+}
   "dependencies": {
     "cohere-ai": "^2.0.0",
     "dotenv": "^16.1.4",
